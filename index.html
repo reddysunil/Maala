@@ -6,77 +6,114 @@
 <title>Mala Deeksha · 41 Days</title>
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Mukta:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#efe6d2;--card:#f8f2e4;--ink:#1b2140;--mut:#666a88;--gold:#c98a0a;--kum:#b3302a;--line:#d9ccb0;--fut:#d3c7aa;--onGold:#1b1500;
+:root{--bg:#f3ead6;--bg2:#fff6e0;--card:rgba(255,255,255,.6);--line:rgba(150,100,10,.28);--ink:#1b2140;--mut:#666a88;--gold:#b97a06;--gold2:#e0a526;--kum:#b3302a;--fut:#d3c7aa;--onGold:#1b1500;--dot:rgba(27,33,64,.07);
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1130;--card:#161b42;--ink:#f1e8d3;--mut:#9aa0c8;--gold:#f0b83a;--kum:#e5574c;--line:#2a3070;--fut:#2b3170}}
-:root[data-theme="dark"]{--bg:#0d1130;--card:#161b42;--ink:#f1e8d3;--mut:#9aa0c8;--gold:#f0b83a;--kum:#e5574c;--line:#2a3070;--fut:#2b3170}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a0e2b;--bg2:#1a2158;--card:rgba(255,255,255,.06);--line:rgba(240,184,58,.22);--ink:#f4ead2;--mut:#a3a9d6;--gold:#f0b83a;--gold2:#ffd77a;--kum:#ff6b5e;--fut:#2c3470;--dot:rgba(255,255,255,.08)}}
+:root[data-theme="dark"]{--bg:#0a0e2b;--bg2:#1a2158;--card:rgba(255,255,255,.06);--line:rgba(240,184,58,.22);--ink:#f4ead2;--mut:#a3a9d6;--gold:#f0b83a;--gold2:#ffd77a;--kum:#ff6b5e;--fut:#2c3470;--dot:rgba(255,255,255,.08)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Mukta,system-ui,sans-serif;-webkit-text-size-adjust:100%}
-main{max-width:560px;margin:0 auto;padding:20px 16px 48px}
-h1,h2{font-family:Marcellus,Georgia,serif;font-weight:400;margin:0}
-h1{font-size:28px;text-align:center;letter-spacing:.02em}
-.sub{text-align:center;color:var(--mut);margin:2px 0 8px;font-size:14px}
-svg.mala{display:block;width:100%;max-width:340px;margin:0 auto}
-.bead{stroke-width:1.5;cursor:pointer}
-.bead.done{fill:var(--gold);stroke:var(--gold)}
+body{margin:0;color:var(--ink);font:16px/1.5 Mukta,system-ui,sans-serif;-webkit-text-size-adjust:100%;min-height:100vh;
+background:radial-gradient(900px 520px at 50% -8%,var(--bg2),transparent 70%),radial-gradient(var(--dot) 1px,transparent 1.5px) 0 0/26px 26px,var(--bg)}
+main{max-width:600px;margin:0 auto;padding:22px 16px 56px}
+h1,h2,.f{font-family:Marcellus,Georgia,serif;font-weight:400}
+h1{margin:0;text-align:center;font-size:34px;letter-spacing:.03em;background:linear-gradient(180deg,var(--gold2),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.te{text-align:center;color:var(--mut);margin:0;font-size:15px}
+.sub{text-align:center;color:var(--mut);font-size:13px;margin:2px 0 4px}
+svg.mala{display:block;width:100%;max-width:350px;margin:0 auto}
+.thread{fill:none;stroke:var(--gold);stroke-opacity:.35;stroke-width:1.5}
+.bead{stroke-width:1.5;cursor:pointer;transition:transform .2s}
+.bead.done{fill:var(--gold);stroke:var(--gold2);filter:url(#g)}
 .bead.part{fill:var(--gold);fill-opacity:.4;stroke:var(--gold)}
 .bead.fut{fill:var(--fut);stroke:none}
-.bead.now{fill:none;stroke:var(--gold);stroke-width:2.5}
-.bead.miss{fill:none;stroke:var(--kum)}
+.bead.now{fill:none;stroke:var(--gold2);stroke-width:3;animation:p 2s ease-in-out infinite}
+.bead.miss{fill:none;stroke:var(--kum);stroke-opacity:.8}
 .bead.sel{stroke:var(--ink);stroke-width:3}
-.big{font:400 34px Marcellus,Georgia,serif;fill:var(--ink);text-anchor:middle}
+@keyframes p{50%{stroke-opacity:.3}}
+@media (prefers-reduced-motion:reduce){.bead.now{animation:none}}
+.om{font:22px Marcellus,serif;fill:var(--gold);text-anchor:middle}
+.big{font:400 38px Marcellus,Georgia,serif;fill:var(--ink);text-anchor:middle}
 .small{font:14px Mukta,sans-serif;fill:var(--mut);text-anchor:middle}
-.stats{display:flex;justify-content:center;gap:28px;margin:6px 0 22px;text-align:center}
-.stats b{display:block;font:400 26px Marcellus,Georgia,serif;color:var(--gold)}
-.stats span{font-size:13px;color:var(--mut)}
-section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:18px}
-h2{font-size:20px;margin-bottom:10px}
-.wk,.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
-.wk{margin-bottom:5px;text-align:center;font-size:12px;color:var(--mut)}
-.c{aspect-ratio:1;min-height:40px;border-radius:8px;border:1.5px solid var(--line);background:none;color:var(--ink);font:inherit;font-size:15px;position:relative;cursor:pointer;padding:0}
-.c i{position:absolute;top:1px;left:4px;font-style:normal;font-size:9px;color:var(--mut)}
-.c.done{background:var(--gold);border-color:var(--gold);color:var(--onGold)}
-.c.done i{color:var(--onGold)}
-.c.part{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 28%,transparent)}
-.c.miss{border-color:var(--kum);color:var(--kum)}
-.c.now{border:2.5px solid var(--gold)}
-.c.fut{color:var(--mut)}
-.c.sel{outline:2.5px solid var(--ink);outline-offset:1px}
-.v{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
-.v input[type=checkbox]{width:24px;height:24px;accent-color:var(--gold);flex:none}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0 6px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 6px;text-align:center;backdrop-filter:blur(6px)}
+.stat b{display:block;font:400 28px Marcellus,Georgia,serif;color:var(--gold)}
+.stat span{font-size:12px;color:var(--mut)}
+.ms{text-align:center;font-size:13px;color:var(--mut);margin:0 0 18px}
+section{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:16px;backdrop-filter:blur(6px)}
+.hd{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+h2{font-size:24px;margin:0}
+.dtt{color:var(--mut);font-size:14px}
+.pb{height:8px;border-radius:8px;background:var(--fut);margin:12px 0 4px;overflow:hidden}
+.pb i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:8px;transition:width .3s}
+.pc{font-size:13px;color:var(--mut)}
+.v{display:flex;align-items:center;gap:14px;padding:12px 4px;border-bottom:1px solid var(--line);cursor:pointer}
+.v input{position:absolute;opacity:0;pointer-events:none}
+.ck{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid var(--gold);display:grid;place-items:center;color:transparent;font-size:15px;transition:.15s}
+.v.on .ck{background:var(--gold);color:var(--onGold)}
 .v label{flex:1;cursor:pointer}
 .v.on label{color:var(--mut);text-decoration:line-through}
+.v input:focus-visible+.ck{outline:2px solid var(--ink);outline-offset:2px}
 .x{background:none;border:0;color:var(--mut);font-size:20px;cursor:pointer;padding:4px 8px}
-textarea,input[type=text],input[type=date]{width:100%;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit}
-textarea{min-height:120px;resize:vertical;margin-top:14px}
 .row{display:flex;gap:8px;margin-top:12px}
-button.b{background:var(--gold);color:var(--onGold);border:0;border-radius:10px;padding:0 16px;font:600 15px Mukta,sans-serif;cursor:pointer}
-.j{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:10px 0;color:var(--ink);font:inherit;cursor:pointer}
+.row.w{flex-wrap:wrap}
+textarea,input[type=text],input[type=date]{width:100%;background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:11px 13px;font:inherit}
+textarea{min-height:120px;resize:vertical;margin-top:14px}
+.b{background:linear-gradient(180deg,var(--gold2),var(--gold));color:var(--onGold);border:0;border-radius:12px;padding:10px 16px;font:600 15px Mukta,sans-serif;cursor:pointer;white-space:nowrap}
+.b.o{background:none;border:1.5px solid var(--gold);color:var(--ink)}
+.sv{font-size:12px;color:var(--mut);text-align:right;min-height:18px}
+.wk,.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.wk{margin:10px 0 6px;text-align:center;font-size:12px;color:var(--mut)}
+.c{aspect-ratio:1;min-height:42px;border-radius:12px;border:1.5px solid var(--line);background:none;color:var(--ink);font:inherit;font-size:16px;position:relative;cursor:pointer;padding:0}
+.c i{position:absolute;top:2px;left:5px;font-style:normal;font-size:9px;color:var(--mut)}
+.c.done{background:linear-gradient(180deg,var(--gold2),var(--gold));border-color:var(--gold);color:var(--onGold)}
+.c.done i{color:var(--onGold)}
+.c.part{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 25%,transparent)}
+.c.miss{border-color:var(--kum);color:var(--kum)}
+.c.now{border:2.5px solid var(--gold2)}
+.c.fut{color:var(--mut)}
+.c.sel{outline:2.5px solid var(--ink);outline-offset:1px}
+.lg{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin-top:10px}
+.lg span:before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;background:var(--c);border:1px solid var(--c)}
+.j{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:11px 0;color:var(--ink);font:inherit;cursor:pointer}
 .j small{display:block;color:var(--mut)}
-details summary{cursor:pointer;color:var(--mut);font-size:14px}
-.foot{text-align:center;font:400 18px Marcellus,Georgia,serif;color:var(--gold);margin-top:26px}
-:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+details{color:var(--mut)}summary{cursor:pointer;font-size:15px}
+details>div{margin-top:12px}
+.msg{font-size:13px;color:var(--gold);min-height:18px;margin-top:8px}
+.foot{text-align:center;font-size:20px;margin-top:26px;color:var(--gold)}
+.pl{display:grid;grid-template-columns:auto 1fr;gap:12px 14px;align-items:center}
+.pp,.fp{width:56px;height:56px;border-radius:50%;border:0;background:linear-gradient(180deg,var(--gold2),var(--gold));color:var(--onGold);font-size:20px;cursor:pointer}
+.pi b{display:block;font-size:19px;color:var(--ink)}.pi span{display:block;font-size:13px;color:var(--mut)}
+.pl .r{grid-column:1/-1;display:flex;gap:10px;align-items:center}
+.pl input[type=range]{flex:1;accent-color:var(--gold)}
+.fp{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:50px;height:50px;font-size:17px;box-shadow:0 6px 18px rgba(0,0,0,.35);z-index:5}
+:focus-visible{outline:2px solid var(--gold2);outline-offset:2px}
 </style>
 </head>
 <body>
 <main>
 <h1>Mala Deeksha</h1>
+<p class="te">స్వామియే శరణం అయ్యప్ప</p>
 <p class="sub" id="range"></p>
-<svg class="mala" id="mala" viewBox="0 0 300 300" role="img" aria-label="Mala of 41 beads, one per day"></svg>
-<div class="stats"><div><b id="s1">0</b><span>days complete</span></div><div><b id="s2">0</b><span>day streak</span></div><div><b id="s3">41</b><span>days to go</span></div></div>
+<svg class="mala" id="mala" viewBox="0 0 300 300" role="img" aria-label="Mala of 41 beads, one per day"><defs><filter id="g" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g id="mg"></g></svg>
+<div class="stats"><div class="stat"><b id="s1">0</b><span>days complete</span></div><div class="stat"><b id="s2">0</b><span>day streak 🔥</span></div><div class="stat"><b id="s3">41</b><span>days to go</span></div></div>
+<p class="ms" id="ms"></p>
+<section class="pl"><button class="pp" id="pp" aria-label="Play or pause">▶</button><div class="pi"><b class="f">Swamiye Saranam Ayyappa</b><span id="ps"></span></div><div class="r"><input type="range" id="vol" min="0" max="1" step="0.05" value="0.8" aria-label="Volume"></div></section>
+<button class="fp" id="fp" aria-label="Play or pause chanting">▶</button>
 
 <section>
-<h2 id="dt"></h2>
+<div class="hd"><h2 id="dn"></h2><span class="dtt" id="dd"></span></div>
+<div class="pb"><i id="bar"></i></div><div class="pc" id="pc"></div>
 <div id="vows"></div>
-<div class="row"><input type="text" id="nv" placeholder="Add your own niyamam" maxlength="60"><button class="b" id="av">Add</button></div>
+<div class="row"><button class="b" id="all">Mark all done</button><button class="b o" id="clr">Clear</button></div>
+<div class="row"><input type="text" id="nv" placeholder="Add your own niyamam" maxlength="60"><button class="b o" id="av">Add</button></div>
 <textarea id="note" placeholder="Write anything: feelings, dreams, things to remember…"></textarea>
+<div class="sv" id="sv"></div>
 </section>
 
 <section>
 <h2>Calendar</h2>
 <div class="wk"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
 <div class="cal" id="cal"></div>
+<div class="lg"><span style="--c:var(--gold)">Done</span><span style="--c:var(--gold2)">Today</span><span style="--c:var(--kum)">Missed</span><span style="--c:var(--fut)">Ahead</span></div>
 </section>
 
 <section>
@@ -84,13 +121,22 @@ details summary{cursor:pointer;color:var(--mut);font-size:14px}
 <div id="jn"></div>
 </section>
 
-<details><summary>Change start date</summary><div class="row"><input type="date" id="sd"></div></details>
-<p class="foot">Swamiye Saranam Ayyappa</p>
+<section>
+<details><summary>Settings, backup and catch-up</summary><div>
+<label for="sd">Start date</label><div class="row"><input type="date" id="sd"></div>
+<div class="row w"><button class="b o" id="cu">Mark all earlier days done</button><button class="b o" id="th">Switch light / dark</button></div>
+<p style="font-size:13px;margin:14px 0 6px">Backup: copy this text and keep it safe. To move to another address, paste it there and tap Restore.</p>
+<textarea id="bk" style="min-height:80px;margin-top:0" spellcheck="false"></textarea>
+<div class="row"><button class="b o" id="cb">Copy backup</button><button class="b o" id="rs">Restore</button></div>
+<div class="msg" id="msg"></div>
+</div></details>
+</section>
+<p class="foot f">Swamiye Saranam Ayyappa</p>
 </main>
 <script>
 const DEF=[["am","Morning bath & pooja"],["pm","Evening bath & pooja"],["ch","Sharanam chanting (108×)"],["fd","Sattvic food only"],["bk","Black / blue dress, no footwear"],["tr","Truthful words, no anger"],["fl","Sleep on the floor"]];
 const MS=864e5,$=s=>document.querySelector(s);
-let S={start:"2026-11-11",vows:DEF.map(([id,t])=>({id,t})),days:{}};
+let S={start:"2026-11-11",vows:DEF.map(([id,t])=>({id,t})),days:{},theme:""};
 try{const r=localStorage.getItem("mala41");if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
 const save=()=>{try{localStorage.setItem("mala41",JSON.stringify(S))}catch(e){}};
 const pu=s=>{const[a,b,c]=s.split("-").map(Number);return Date.UTC(a,b-1,c)};
@@ -101,20 +147,23 @@ const today=()=>Math.floor((nowU()-pu(S.start))/MS)+1;
 const dd=d=>S.days[d]||(S.days[d]={c:[],n:""});
 const cnt=d=>{const x=S.days[d];return x?x.c.filter(i=>S.vows.some(v=>v.id===i)).length:0};
 const st=d=>{const t=today(),c=cnt(d);if(c&&c>=S.vows.length)return"done";if(c)return"part";if(d>t)return"fut";if(d===t)return"now";return"miss"};
+const setTheme=()=>{if(S.theme)document.documentElement.setAttribute("data-theme",S.theme);else document.documentElement.removeAttribute("data-theme")};
 let sel=Math.min(Math.max(today(),1),41);
 
 function mala(){
-  const t=today();let b="";
+  const t=today();let b='<circle class="thread" cx="150" cy="150" r="118"/>';
   for(let i=0;i<41;i++){const d=i+1,a=i/41*2*Math.PI-Math.PI/2;
-    b+=`<circle class="bead ${st(d)}${d===sel?" sel":""}" data-d="${d}" cx="${(150+118*Math.cos(a)).toFixed(1)}" cy="${(150+118*Math.sin(a)).toFixed(1)}" r="7.4"/>`}
+    b+=`<circle class="bead ${st(d)}${d===sel?" sel":""}" data-d="${d}" cx="${(150+118*Math.cos(a)).toFixed(1)}" cy="${(150+118*Math.sin(a)).toFixed(1)}" r="7.8"/>`}
   let big,sub;
   if(t<1){big="Soon";sub=`starts in ${1-t} day${1-t>1?"s":""}`}
   else if(t>41){big="Done";sub="Swamiye Saranam"}
   else{big="Day "+t;sub=`of 41 · ${41-t} to go`}
-  $("#mala").innerHTML=b+`<text class="big" x="150" y="152">${big}</text><text class="small" x="150" y="178">${sub}</text>`;
+  $("#mg").innerHTML=b+`<text class="om" x="150" y="118">ॐ</text><text class="big" x="150" y="160">${big}</text><text class="small" x="150" y="184">${sub}</text>`;
   let done=0,s=0;for(let d=1;d<=41;d++)if(st(d)==="done")done++;
   for(let d=Math.min(t,41);d>=1;d--){if(st(d)==="done")s++;else if(d===t)continue;else break}
   $("#s1").textContent=done;$("#s2").textContent=s;$("#s3").textContent=Math.max(0,Math.min(41,41-Math.max(t,0)));
+  const m=[7,14,21,28,35,41].find(x=>x>=t);
+  $("#ms").textContent=t<1||t>41?"":(m===t?`Milestone day today: Day ${m} 🙏`:`Next milestone: Day ${m}, in ${m-t} days`);
   $("#range").textContent=fmt(dateOf(1),{day:"numeric",month:"short"})+" to "+fmt(dateOf(41),{weekday:"short",day:"numeric",month:"short",year:"numeric"});
 }
 function cal(){
@@ -124,17 +173,20 @@ function cal(){
   $("#cal").innerHTML=h;
 }
 function day(){
-  $("#dt").textContent=`Day ${sel} · ${fmt(dateOf(sel),{weekday:"long",day:"numeric",month:"long"})}`;
-  const x=dd(sel),box=$("#vows");box.innerHTML="";
+  $("#dn").textContent="Day "+sel;$("#dd").textContent=fmt(dateOf(sel),{weekday:"long",day:"numeric",month:"long"});
+  const x=dd(sel),n=S.vows.length,c=cnt(sel),box=$("#vows");box.innerHTML="";
+  $("#bar").style.width=(n?c/n*100:0)+"%";$("#pc").textContent=`${c} of ${n} done`;
   S.vows.forEach(v=>{
     const on=x.c.includes(v.id),r=document.createElement("div");r.className="v"+(on?" on":"");
     const cb=document.createElement("input");cb.type="checkbox";cb.id="v_"+v.id;cb.checked=on;
     cb.onchange=()=>{const y=dd(sel);y.c=cb.checked?[...y.c,v.id]:y.c.filter(i=>i!==v.id);save();day();mala();cal()};
+    const ck=document.createElement("span");ck.className="ck";ck.textContent="✓";
     const lb=document.createElement("label");lb.htmlFor=cb.id;lb.textContent=v.t;
     const xb=document.createElement("button");xb.className="x";xb.textContent="×";xb.setAttribute("aria-label","Remove "+v.t);
-    xb.onclick=()=>{S.vows=S.vows.filter(q=>q.id!==v.id);save();all()};
-    r.append(cb,lb,xb);box.append(r)});
-  $("#note").value=x.n||"";
+    xb.onclick=e=>{e.stopPropagation();S.vows=S.vows.filter(q=>q.id!==v.id);save();all()};
+    r.onclick=e=>{if(e.target===r)cb.click()};
+    r.append(cb,ck,lb,xb);box.append(r)});
+  $("#note").value=x.n||"";$("#sv").textContent="";
 }
 function jn(){
   const box=$("#jn");box.innerHTML="";let any=false;
@@ -145,16 +197,32 @@ function jn(){
     b.onclick=()=>{sel=d;all();scrollTo({top:0,behavior:"smooth"})};box.append(b)}
   if(!any)box.textContent="Notes you write each day will collect here.";
 }
-function all(){mala();cal();day();jn()}
+function all(){mala();cal();day();jn();$("#bk").value=JSON.stringify(S)}
 const pick=e=>{const d=e.target.dataset&&e.target.dataset.d;if(d){sel=+d;all()}};
 $("#mala").onclick=pick;$("#cal").onclick=pick;
-$("#note").oninput=e=>{dd(sel).n=e.target.value;save()};
-$("#note").onchange=jn;
+let tm;$("#note").oninput=e=>{dd(sel).n=e.target.value;save();$("#sv").textContent="Saving…";clearTimeout(tm);tm=setTimeout(()=>$("#sv").textContent="Saved ✓",500)};
+$("#note").onchange=()=>{jn();$("#bk").value=JSON.stringify(S)};
+$("#all").onclick=()=>{dd(sel).c=S.vows.map(v=>v.id);save();all()};
+$("#clr").onclick=()=>{dd(sel).c=[];save();all()};
 $("#av").onclick=()=>{const i=$("#nv"),t=i.value.trim();if(!t)return;S.vows.push({id:"u"+Date.now(),t});i.value="";save();all()};
 $("#nv").onkeydown=e=>{if(e.key==="Enter")$("#av").click()};
 $("#sd").value=S.start;
 $("#sd").onchange=e=>{if(e.target.value){S.start=e.target.value;sel=Math.min(Math.max(today(),1),41);save();all()}};
-all();
+let arm=0;$("#cu").onclick=()=>{
+  if(!arm){arm=1;$("#cu").textContent="Tap again to confirm";setTimeout(()=>{arm=0;$("#cu").textContent="Mark all earlier days done"},3500);return}
+  for(let d=1;d<Math.min(today(),42);d++)dd(d).c=S.vows.map(v=>v.id);
+  arm=0;$("#cu").textContent="Mark all earlier days done";save();all();$("#msg").textContent="All earlier days marked done."};
+$("#th").onclick=()=>{const dk=S.theme?S.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;S.theme=dk?"light":"dark";setTheme();save()};
+$("#cb").onclick=async()=>{const t=JSON.stringify(S);$("#bk").value=t;try{await navigator.clipboard.writeText(t);$("#msg").textContent="Backup copied."}catch(e){$("#bk").select();$("#msg").textContent="Select the text and copy it."}};
+$("#rs").onclick=()=>{try{const o=JSON.parse($("#bk").value);if(!o||typeof o!=="object"||!o.days||!o.vows)throw 0;S=Object.assign(S,o);save();setTheme();$("#sd").value=S.start;all();$("#msg").textContent="Restored."}catch(e){$("#msg").textContent="That backup text is not valid."}};
+const au=new Audio("swamiye-saranam.mp3");au.loop=true;au.preload="auto";au.volume=.8;let bad=false;
+function ui(){const on=!au.paused;$("#pp").textContent=on?"❚❚":"▶";$("#fp").textContent=on?"❚❚":"▶";$("#ps").textContent=bad?"Audio file not found":on?"Playing on loop":"Tap play to chant"}
+async function tog(){try{bad=false;au.paused?await au.play():au.pause()}catch(e){bad=true}ui()}
+au.onplay=au.onpause=ui;au.onerror=()=>{bad=true;ui()};
+$("#pp").onclick=tog;$("#fp").onclick=tog;
+$("#vol").oninput=e=>{au.volume=+e.target.value};
+if("mediaSession" in navigator){try{navigator.mediaSession.metadata=new MediaMetadata({title:"Swamiye Saranam Ayyappa",artist:"Mala Deeksha"});navigator.mediaSession.setActionHandler("play",()=>au.play());navigator.mediaSession.setActionHandler("pause",()=>au.pause())}catch(e){}}
+setTheme();all();ui();
 </script>
 </body>
 </html>
