@@ -215,10 +215,10 @@ let arm=0;$("#cu").onclick=()=>{
 $("#th").onclick=()=>{const dk=S.theme?S.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;S.theme=dk?"light":"dark";setTheme();save()};
 $("#cb").onclick=async()=>{const t=JSON.stringify(S);$("#bk").value=t;try{await navigator.clipboard.writeText(t);$("#msg").textContent="Backup copied."}catch(e){$("#bk").select();$("#msg").textContent="Select the text and copy it."}};
 $("#rs").onclick=()=>{try{const o=JSON.parse($("#bk").value);if(!o||typeof o!=="object"||!o.days||!o.vows)throw 0;S=Object.assign(S,o);save();setTheme();$("#sd").value=S.start;all();$("#msg").textContent="Restored."}catch(e){$("#msg").textContent="That backup text is not valid."}};
-const au=new Audio("swamiye-saranam.mp3");au.loop=true;au.preload="auto";au.volume=.8;let bad=false;
+const SR=["swamiye-saranam.mp3.aac","swamiye-saranam.aac","swamiye-saranam.mp3","swamiye-saranam.m4a"];let si=0;const au=new Audio(SR[0]);au.loop=true;au.preload="auto";au.volume=.8;let bad=false;
 function ui(){const on=!au.paused;$("#pp").textContent=on?"❚❚":"▶";$("#fp").textContent=on?"❚❚":"▶";$("#ps").textContent=bad?"Audio file not found":on?"Playing on loop":"Tap play to chant"}
 async function tog(){try{bad=false;au.paused?await au.play():au.pause()}catch(e){bad=true}ui()}
-au.onplay=au.onpause=ui;au.onerror=()=>{bad=true;ui()};
+au.onplay=au.onpause=ui;au.onerror=()=>{if(++si<SR.length){au.src=SR[si];return}bad=true;ui()};
 $("#pp").onclick=tog;$("#fp").onclick=tog;
 $("#vol").oninput=e=>{au.volume=+e.target.value};
 if("mediaSession" in navigator){try{navigator.mediaSession.metadata=new MediaMetadata({title:"Swamiye Saranam Ayyappa",artist:"Mala Deeksha"});navigator.mediaSession.setActionHandler("play",()=>au.play());navigator.mediaSession.setActionHandler("pause",()=>au.pause())}catch(e){}}
