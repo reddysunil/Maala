@@ -85,6 +85,10 @@ details>div{margin-top:12px}
 .pl .r{grid-column:1/-1;display:flex;gap:10px;align-items:center}
 .pl input[type=range]{flex:1;accent-color:var(--gold)}
 .fp{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:50px;height:50px;font-size:17px;box-shadow:0 6px 18px rgba(0,0,0,.35);z-index:5}
+[hidden]{display:none!important}
+button:disabled{opacity:.45;cursor:not-allowed}
+.lk textarea{opacity:.85}
+.lkb{margin-top:10px;width:100%}
 :focus-visible{outline:2px solid var(--gold2);outline-offset:2px}
 </style>
 </head>
@@ -101,6 +105,9 @@ details>div{margin-top:12px}
 
 <section>
 <div class="hd"><h2 id="dn"></h2><span class="dtt" id="dd"></span></div>
+<button class="b o lkb" id="lk"></button>
+<div class="row" id="ur" hidden><input type="password" id="up" placeholder="Secret code to edit" autocomplete="off" autocapitalize="off"><button class="b" id="ub">Unlock</button></div>
+<div class="msg" id="um"></div>
 <div class="pb"><i id="bar"></i></div><div class="pc" id="pc"></div>
 <div id="vows"></div>
 <div class="row"><button class="b" id="all">Mark all done</button><button class="b o" id="clr">Clear</button></div>
@@ -203,7 +210,7 @@ function jn(){
     b.onclick=()=>{sel=d;all();scrollTo({top:0,behavior:"smooth"})};box.append(b)}
   if(!any)box.textContent="Notes you write each day will collect here.";
 }
-function all(){mala();cal();day();jn();$("#bk").value=JSON.stringify(S)}
+function all(){mala();cal();day();jn();$("#bk").value=JSON.stringify(S);applyLock()}
 const pick=e=>{const d=e.target.dataset&&e.target.dataset.d;if(d){sel=+d;all()}};
 $("#mala").onclick=pick;$("#cal").onclick=pick;
 let tm;$("#note").oninput=e=>{const y=dd(sel);y.n=e.target.value;y.t=Date.now();save();$("#sv").textContent="Saving…";clearTimeout(tm);tm=setTimeout(()=>$("#sv").textContent="Saved ✓",500)};
@@ -228,7 +235,7 @@ au.onplay=au.onpause=ui;au.onerror=()=>{if(++si<SR.length){au.src=SR[si];return}
 $("#pp").onclick=tog;$("#fp").onclick=tog;
 $("#vol").oninput=e=>{au.volume=+e.target.value};
 if("mediaSession" in navigator){try{navigator.mediaSession.metadata=new MediaMetadata({title:"Swamiye Saranam Ayyappa",artist:"Mala Deeksha"});navigator.mediaSession.setActionHandler("play",()=>au.play());navigator.mediaSession.setActionHandler("pause",()=>au.pause())}catch(e){}}
-const DBU="https://maala-dee8b-default-rtdb.asia-southeast1.firebasedatabase.app";let SY={u:DBU,c:""};try{SY=Object.assign(SY,JSON.parse(localStorage.getItem("mala41sync")||"{}"))}catch(e){}
+const DBU="https://maala-dee8b-default-rtdb.asia-southeast1.firebasedatabase.app";const DBC="ayyappa41k7q2x9mw";let SY={u:DBU,c:DBC};try{if(!DBC)SY=Object.assign(SY,JSON.parse(localStorage.getItem("mala41sync")||"{}"))}catch(e){}
 const syOn=()=>SY.u&&SY.c,syUrl=()=>SY.u.replace(/\/+$/,"")+"/mala/"+encodeURIComponent(SY.c)+".json";
 const syMsg=m=>{$("#sm").textContent=m},tnow=()=>new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
 function merge(r){if(!r||typeof r!=="object")return false;let ch=false;
@@ -239,11 +246,12 @@ function merge(r){if(!r||typeof r!=="object")return false;let ch=false;
 async function pull(){if(!syOn()||document.activeElement===$("#note"))return;
  try{const r=await fetch(syUrl());if(!r.ok){syMsg("Sync failed (error "+r.status+"). "+(r.status==401?"Publish the Firebase rules.":"Check the database URL."));return}const ch=merge(await r.json());if(ch){$("#sd").value=S.start;all()}syMsg("Synced "+tnow());push()}
  catch(e){syMsg("Sync failed: cannot reach the database. Check the URL and your internet.")}}
-let pt;function push(){if(!syOn())return;clearTimeout(pt);pt=setTimeout(async()=>{
+let pt;function push(){if(!syOn()||!UNL)return;clearTimeout(pt);pt=setTimeout(async()=>{
  try{const r=await fetch(syUrl(),{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({days:S.days,vows:S.vows,start:S.start,vt:S.vt||0})});syMsg(r.ok?"Synced "+tnow():"Sync failed. Check the database rules.")}
  catch(e){syMsg("Sync failed. Check your internet.")}},800)}
 try{const h=new URLSearchParams(location.hash.slice(1));if(h.get("u")&&h.get("c")){SY={u:h.get("u"),c:h.get("c")};localStorage.setItem("mala41sync",JSON.stringify(SY));
  for(const d in S.days){const x=S.days[d];if(!x.t&&((x.c&&x.c.length)||(x.n||"").trim()))x.t=Date.now()}S.vt=S.vt||1;history.replaceState(null,"",location.pathname)}}catch(e){}
+if(syOn()){for(const d in S.days){const x=S.days[d];if(!x.t&&((x.c&&x.c.length)||(x.n||"").trim()))x.t=Date.now()}S.vt=S.vt||1}
 $("#fu").value=SY.u;$("#fc").value=SY.c;
 $("#fl").onclick=async()=>{if(!syOn()){syMsg("Connect this phone first.");return}const l=location.origin+location.pathname+"#u="+encodeURIComponent(SY.u)+"&c="+encodeURIComponent(SY.c);
  try{await navigator.clipboard.writeText(l);syMsg("Link copied. Send it to your other phone and open it there.")}catch(e){$("#bk").value=l;$("#bk").select();syMsg("Copy the link from the backup box below.")}};
@@ -252,8 +260,18 @@ $("#fs").onclick=()=>{const u=$("#fu").value.trim(),c=$("#fc").value.trim();
  SY={u,c};try{localStorage.setItem("mala41sync",JSON.stringify(SY))}catch(e){}
  for(const d in S.days){const x=S.days[d];if(!x.t&&((x.c&&x.c.length)||(x.n||"").trim()))x.t=Date.now()}
  S.vt=S.vt||1;save();syMsg("Connecting…");pull()};
-$("#fx").onclick=()=>{SY={u:DBU,c:""};try{localStorage.removeItem("mala41sync")}catch(e){}syMsg("Disconnected. Your data stays on this phone.")};
+$("#fx").onclick=()=>{SY={u:DBU,c:DBC};try{localStorage.removeItem("mala41sync")}catch(e){}syMsg("Disconnected. Your data stays on this phone.")};
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)pull()});setInterval(()=>{if(!document.hidden)pull()},45000);
+const HASH="190e9ece2f4801cffdff60e96cdc36fe0c18d7b778e0eb72476a64a633390bc1";let UNL=false;try{UNL=localStorage.getItem("mala41u")===HASH}catch(e){}
+async function sha(t){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+function applyLock(){document.body.classList.toggle("lk",!UNL);
+ ["all","clr","av","nv","cu","rs","sd","fs","fx"].forEach(i=>{$("#"+i).disabled=!UNL});$("#note").readOnly=!UNL;
+ $("#lk").textContent=UNL?"🔓 Editing on · tap to lock":"🔒 View only · tap to unlock";
+ document.querySelectorAll(".x").forEach(e=>e.style.display=UNL?"":"none");
+ document.querySelectorAll("#vows input").forEach(e=>e.disabled=!UNL)}
+$("#lk").onclick=()=>{if(UNL){UNL=false;try{localStorage.removeItem("mala41u")}catch(e){}applyLock();return}$("#ur").hidden=!$("#ur").hidden;if(!$("#ur").hidden)$("#up").focus()};
+$("#ub").onclick=async()=>{try{if(await sha($("#up").value.trim())===HASH){UNL=true;try{localStorage.setItem("mala41u",HASH)}catch(e){}$("#up").value="";$("#ur").hidden=true;$("#um").textContent="";applyLock();push()}else $("#um").textContent="Wrong code."}catch(e){$("#um").textContent="Unlock is not supported in this browser."}};
+$("#up").onkeydown=e=>{if(e.key==="Enter")$("#ub").click()};
 setTheme();all();ui();pull();
 </script>
 </body>
