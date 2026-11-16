@@ -125,6 +125,12 @@ details>div{margin-top:12px}
 <details><summary>Settings, backup and catch-up</summary><div>
 <label for="sd">Start date</label><div class="row"><input type="date" id="sd"></div>
 <div class="row w"><button class="b o" id="cu">Mark all earlier days done</button><button class="b o" id="th">Switch light / dark</button></div>
+<p style="font-size:13px;margin:14px 0 6px"><b>Sync between phones</b><br>Paste your Firebase database URL and a secret code. Use the same two on every phone.</p>
+<input type="text" id="fu" placeholder="https://your-project-default-rtdb.firebasedatabase.app" autocapitalize="off" autocomplete="off" spellcheck="false">
+<div class="row"><input type="text" id="fc" placeholder="Secret sync code (10+ letters or numbers)" autocapitalize="off" autocomplete="off" spellcheck="false"></div>
+<div class="row"><button class="b o" id="fs">Connect and sync</button><button class="b o" id="fx">Disconnect</button></div>
+<div class="row"><button class="b o" id="fl">Copy link for other phones</button></div>
+<div class="msg" id="sm"></div>
 <p style="font-size:13px;margin:14px 0 6px">Backup: copy this text and keep it safe. To move to another address, paste it there and tap Restore.</p>
 <textarea id="bk" style="min-height:80px;margin-top:0" spellcheck="false"></textarea>
 <div class="row"><button class="b o" id="cb">Copy backup</button><button class="b o" id="rs">Restore</button></div>
@@ -138,7 +144,7 @@ const DEF=[["am","Morning bath & pooja"],["pm","Evening bath & pooja"],["ch","Sh
 const MS=864e5,$=s=>document.querySelector(s);
 let S={start:"2026-11-11",vows:DEF.map(([id,t])=>({id,t})),days:{},theme:""};
 try{const r=localStorage.getItem("mala41");if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
-const save=()=>{try{localStorage.setItem("mala41",JSON.stringify(S))}catch(e){}};
+const save=()=>{try{localStorage.setItem("mala41",JSON.stringify(S))}catch(e){}push()};
 const pu=s=>{const[a,b,c]=s.split("-").map(Number);return Date.UTC(a,b-1,c)};
 const nowU=()=>{const n=new Date();return Date.UTC(n.getFullYear(),n.getMonth(),n.getDate())};
 const dateOf=d=>new Date(pu(S.start)+(d-1)*MS);
@@ -179,11 +185,11 @@ function day(){
   S.vows.forEach(v=>{
     const on=x.c.includes(v.id),r=document.createElement("div");r.className="v"+(on?" on":"");
     const cb=document.createElement("input");cb.type="checkbox";cb.id="v_"+v.id;cb.checked=on;
-    cb.onchange=()=>{const y=dd(sel);y.c=cb.checked?[...y.c,v.id]:y.c.filter(i=>i!==v.id);save();day();mala();cal()};
+    cb.onchange=()=>{const y=dd(sel);y.c=cb.checked?[...y.c,v.id]:y.c.filter(i=>i!==v.id);y.t=Date.now();save();day();mala();cal()};
     const ck=document.createElement("span");ck.className="ck";ck.textContent="✓";
     const lb=document.createElement("label");lb.htmlFor=cb.id;lb.textContent=v.t;
     const xb=document.createElement("button");xb.className="x";xb.textContent="×";xb.setAttribute("aria-label","Remove "+v.t);
-    xb.onclick=e=>{e.stopPropagation();S.vows=S.vows.filter(q=>q.id!==v.id);save();all()};
+    xb.onclick=e=>{e.stopPropagation();S.vows=S.vows.filter(q=>q.id!==v.id);S.vt=Date.now();save();all()};
     r.onclick=e=>{if(e.target===r)cb.click()};
     r.append(cb,ck,lb,xb);box.append(r)});
   $("#note").value=x.n||"";$("#sv").textContent="";
@@ -200,21 +206,21 @@ function jn(){
 function all(){mala();cal();day();jn();$("#bk").value=JSON.stringify(S)}
 const pick=e=>{const d=e.target.dataset&&e.target.dataset.d;if(d){sel=+d;all()}};
 $("#mala").onclick=pick;$("#cal").onclick=pick;
-let tm;$("#note").oninput=e=>{dd(sel).n=e.target.value;save();$("#sv").textContent="Saving…";clearTimeout(tm);tm=setTimeout(()=>$("#sv").textContent="Saved ✓",500)};
+let tm;$("#note").oninput=e=>{const y=dd(sel);y.n=e.target.value;y.t=Date.now();save();$("#sv").textContent="Saving…";clearTimeout(tm);tm=setTimeout(()=>$("#sv").textContent="Saved ✓",500)};
 $("#note").onchange=()=>{jn();$("#bk").value=JSON.stringify(S)};
-$("#all").onclick=()=>{dd(sel).c=S.vows.map(v=>v.id);save();all()};
-$("#clr").onclick=()=>{dd(sel).c=[];save();all()};
-$("#av").onclick=()=>{const i=$("#nv"),t=i.value.trim();if(!t)return;S.vows.push({id:"u"+Date.now(),t});i.value="";save();all()};
+$("#all").onclick=()=>{const y=dd(sel);y.c=S.vows.map(v=>v.id);y.t=Date.now();save();all()};
+$("#clr").onclick=()=>{const y=dd(sel);y.c=[];y.t=Date.now();save();all()};
+$("#av").onclick=()=>{const i=$("#nv"),t=i.value.trim();if(!t)return;S.vows.push({id:"u"+Date.now(),t});S.vt=Date.now();i.value="";save();all()};
 $("#nv").onkeydown=e=>{if(e.key==="Enter")$("#av").click()};
 $("#sd").value=S.start;
-$("#sd").onchange=e=>{if(e.target.value){S.start=e.target.value;sel=Math.min(Math.max(today(),1),41);save();all()}};
+$("#sd").onchange=e=>{if(e.target.value){S.start=e.target.value;S.vt=Date.now();sel=Math.min(Math.max(today(),1),41);save();all()}};
 let arm=0;$("#cu").onclick=()=>{
   if(!arm){arm=1;$("#cu").textContent="Tap again to confirm";setTimeout(()=>{arm=0;$("#cu").textContent="Mark all earlier days done"},3500);return}
-  for(let d=1;d<Math.min(today(),42);d++)dd(d).c=S.vows.map(v=>v.id);
+  for(let d=1;d<Math.min(today(),42);d++){const x=dd(d);x.c=S.vows.map(v=>v.id);x.t=Date.now()}
   arm=0;$("#cu").textContent="Mark all earlier days done";save();all();$("#msg").textContent="All earlier days marked done."};
 $("#th").onclick=()=>{const dk=S.theme?S.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;S.theme=dk?"light":"dark";setTheme();save()};
 $("#cb").onclick=async()=>{const t=JSON.stringify(S);$("#bk").value=t;try{await navigator.clipboard.writeText(t);$("#msg").textContent="Backup copied."}catch(e){$("#bk").select();$("#msg").textContent="Select the text and copy it."}};
-$("#rs").onclick=()=>{try{const o=JSON.parse($("#bk").value);if(!o||typeof o!=="object"||!o.days||!o.vows)throw 0;S=Object.assign(S,o);save();setTheme();$("#sd").value=S.start;all();$("#msg").textContent="Restored."}catch(e){$("#msg").textContent="That backup text is not valid."}};
+$("#rs").onclick=()=>{try{const o=JSON.parse($("#bk").value);if(!o||typeof o!=="object"||!o.days||!o.vows)throw 0;S=Object.assign(S,o);for(const d in S.days)S.days[d].t=Date.now();S.vt=Date.now();save();setTheme();$("#sd").value=S.start;all();$("#msg").textContent="Restored."}catch(e){$("#msg").textContent="That backup text is not valid."}};
 const SR=["swamiye-saranam.mp3.aac","swamiye-saranam.aac","swamiye-saranam.mp3","swamiye-saranam.m4a"];let si=0;const au=new Audio(SR[0]);au.loop=true;au.preload="auto";au.volume=.8;let bad=false;
 function ui(){const on=!au.paused;$("#pp").textContent=on?"❚❚":"▶";$("#fp").textContent=on?"❚❚":"▶";$("#ps").textContent=bad?"Audio file not found":on?"Playing on loop":"Tap play to chant"}
 async function tog(){try{bad=false;au.paused?await au.play():au.pause()}catch(e){bad=true}ui()}
@@ -222,7 +228,33 @@ au.onplay=au.onpause=ui;au.onerror=()=>{if(++si<SR.length){au.src=SR[si];return}
 $("#pp").onclick=tog;$("#fp").onclick=tog;
 $("#vol").oninput=e=>{au.volume=+e.target.value};
 if("mediaSession" in navigator){try{navigator.mediaSession.metadata=new MediaMetadata({title:"Swamiye Saranam Ayyappa",artist:"Mala Deeksha"});navigator.mediaSession.setActionHandler("play",()=>au.play());navigator.mediaSession.setActionHandler("pause",()=>au.pause())}catch(e){}}
-setTheme();all();ui();
+const DBU="https://maala-dee8b-default-rtdb.asia-southeast1.firebasedatabase.app";let SY={u:DBU,c:""};try{SY=Object.assign(SY,JSON.parse(localStorage.getItem("mala41sync")||"{}"))}catch(e){}
+const syOn=()=>SY.u&&SY.c,syUrl=()=>SY.u.replace(/\/+$/,"")+"/mala/"+encodeURIComponent(SY.c)+".json";
+const syMsg=m=>{$("#sm").textContent=m},tnow=()=>new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
+function merge(r){if(!r||typeof r!=="object")return false;let ch=false;
+ if(r.days)for(const d in r.days){const a=r.days[d],b=S.days[d];if(!a)continue;
+  if(!b||(a.t||0)>(b.t||0)||(!b.t&&!(b.c&&b.c.length)&&!(b.n||"").trim())){S.days[d]={c:a.c||[],n:a.n||"",t:a.t||0};ch=true}}
+ if((r.vt||0)>(S.vt||0)&&r.vows){S.vows=r.vows;S.start=r.start||S.start;S.vt=r.vt;ch=true}
+ if(ch){try{localStorage.setItem("mala41",JSON.stringify(S))}catch(e){}}return ch}
+async function pull(){if(!syOn()||document.activeElement===$("#note"))return;
+ try{const r=await fetch(syUrl());if(!r.ok){syMsg("Sync failed (error "+r.status+"). "+(r.status==401?"Publish the Firebase rules.":"Check the database URL."));return}const ch=merge(await r.json());if(ch){$("#sd").value=S.start;all()}syMsg("Synced "+tnow());push()}
+ catch(e){syMsg("Sync failed: cannot reach the database. Check the URL and your internet.")}}
+let pt;function push(){if(!syOn())return;clearTimeout(pt);pt=setTimeout(async()=>{
+ try{const r=await fetch(syUrl(),{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({days:S.days,vows:S.vows,start:S.start,vt:S.vt||0})});syMsg(r.ok?"Synced "+tnow():"Sync failed. Check the database rules.")}
+ catch(e){syMsg("Sync failed. Check your internet.")}},800)}
+try{const h=new URLSearchParams(location.hash.slice(1));if(h.get("u")&&h.get("c")){SY={u:h.get("u"),c:h.get("c")};localStorage.setItem("mala41sync",JSON.stringify(SY));
+ for(const d in S.days){const x=S.days[d];if(!x.t&&((x.c&&x.c.length)||(x.n||"").trim()))x.t=Date.now()}S.vt=S.vt||1;history.replaceState(null,"",location.pathname)}}catch(e){}
+$("#fu").value=SY.u;$("#fc").value=SY.c;
+$("#fl").onclick=async()=>{if(!syOn()){syMsg("Connect this phone first.");return}const l=location.origin+location.pathname+"#u="+encodeURIComponent(SY.u)+"&c="+encodeURIComponent(SY.c);
+ try{await navigator.clipboard.writeText(l);syMsg("Link copied. Send it to your other phone and open it there.")}catch(e){$("#bk").value=l;$("#bk").select();syMsg("Copy the link from the backup box below.")}};
+$("#fs").onclick=()=>{const u=$("#fu").value.trim(),c=$("#fc").value.trim();
+ if(!/^https:\/\/.+(firebaseio\.com|firebasedatabase\.app)/.test(u)||c.length<8){syMsg("Enter the Realtime Database URL (it ends with firebasedatabase.app or firebaseio.com) and a code of 8+ characters.");return}
+ SY={u,c};try{localStorage.setItem("mala41sync",JSON.stringify(SY))}catch(e){}
+ for(const d in S.days){const x=S.days[d];if(!x.t&&((x.c&&x.c.length)||(x.n||"").trim()))x.t=Date.now()}
+ S.vt=S.vt||1;save();syMsg("Connecting…");pull()};
+$("#fx").onclick=()=>{SY={u:DBU,c:""};try{localStorage.removeItem("mala41sync")}catch(e){}syMsg("Disconnected. Your data stays on this phone.")};
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)pull()});setInterval(()=>{if(!document.hidden)pull()},45000);
+setTheme();all();ui();pull();
 </script>
 </body>
 </html>
