@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mala Deeksha · 41 Days</title>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Mukta:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#efe6d2;--card:#f8f2e4;--ink:#1b2140;--mut:#666a88;--gold:#c98a0a;--kum:#b3302a;--line:#d9ccb0;--fut:#d3c7aa;--onGold:#1b1500;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1130;--card:#161b42;--ink:#f1e8d3;--mut:#9aa0c8;--gold:#f0b83a;--kum:#e5574c;--line:#2a3070;--fut:#2b3170}}
+:root[data-theme="dark"]{--bg:#0d1130;--card:#161b42;--ink:#f1e8d3;--mut:#9aa0c8;--gold:#f0b83a;--kum:#e5574c;--line:#2a3070;--fut:#2b3170}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Mukta,system-ui,sans-serif;-webkit-text-size-adjust:100%}
+main{max-width:560px;margin:0 auto;padding:20px 16px 48px}
+h1,h2{font-family:Marcellus,Georgia,serif;font-weight:400;margin:0}
+h1{font-size:28px;text-align:center;letter-spacing:.02em}
+.sub{text-align:center;color:var(--mut);margin:2px 0 8px;font-size:14px}
+svg.mala{display:block;width:100%;max-width:340px;margin:0 auto}
+.bead{stroke-width:1.5;cursor:pointer}
+.bead.done{fill:var(--gold);stroke:var(--gold)}
+.bead.part{fill:var(--gold);fill-opacity:.4;stroke:var(--gold)}
+.bead.fut{fill:var(--fut);stroke:none}
+.bead.now{fill:none;stroke:var(--gold);stroke-width:2.5}
+.bead.miss{fill:none;stroke:var(--kum)}
+.bead.sel{stroke:var(--ink);stroke-width:3}
+.big{font:400 34px Marcellus,Georgia,serif;fill:var(--ink);text-anchor:middle}
+.small{font:14px Mukta,sans-serif;fill:var(--mut);text-anchor:middle}
+.stats{display:flex;justify-content:center;gap:28px;margin:6px 0 22px;text-align:center}
+.stats b{display:block;font:400 26px Marcellus,Georgia,serif;color:var(--gold)}
+.stats span{font-size:13px;color:var(--mut)}
+section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:18px}
+h2{font-size:20px;margin-bottom:10px}
+.wk,.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.wk{margin-bottom:5px;text-align:center;font-size:12px;color:var(--mut)}
+.c{aspect-ratio:1;min-height:40px;border-radius:8px;border:1.5px solid var(--line);background:none;color:var(--ink);font:inherit;font-size:15px;position:relative;cursor:pointer;padding:0}
+.c i{position:absolute;top:1px;left:4px;font-style:normal;font-size:9px;color:var(--mut)}
+.c.done{background:var(--gold);border-color:var(--gold);color:var(--onGold)}
+.c.done i{color:var(--onGold)}
+.c.part{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 28%,transparent)}
+.c.miss{border-color:var(--kum);color:var(--kum)}
+.c.now{border:2.5px solid var(--gold)}
+.c.fut{color:var(--mut)}
+.c.sel{outline:2.5px solid var(--ink);outline-offset:1px}
+.v{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.v input[type=checkbox]{width:24px;height:24px;accent-color:var(--gold);flex:none}
+.v label{flex:1;cursor:pointer}
+.v.on label{color:var(--mut);text-decoration:line-through}
+.x{background:none;border:0;color:var(--mut);font-size:20px;cursor:pointer;padding:4px 8px}
+textarea,input[type=text],input[type=date]{width:100%;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit}
+textarea{min-height:120px;resize:vertical;margin-top:14px}
+.row{display:flex;gap:8px;margin-top:12px}
+button.b{background:var(--gold);color:var(--onGold);border:0;border-radius:10px;padding:0 16px;font:600 15px Mukta,sans-serif;cursor:pointer}
+.j{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:10px 0;color:var(--ink);font:inherit;cursor:pointer}
+.j small{display:block;color:var(--mut)}
+details summary{cursor:pointer;color:var(--mut);font-size:14px}
+.foot{text-align:center;font:400 18px Marcellus,Georgia,serif;color:var(--gold);margin-top:26px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+</style>
+</head>
+<body>
+<main>
+<h1>Mala Deeksha</h1>
+<p class="sub" id="range"></p>
+<svg class="mala" id="mala" viewBox="0 0 300 300" role="img" aria-label="Mala of 41 beads, one per day"></svg>
+<div class="stats"><div><b id="s1">0</b><span>days complete</span></div><div><b id="s2">0</b><span>day streak</span></div><div><b id="s3">41</b><span>days to go</span></div></div>
+
+<section>
+<h2 id="dt"></h2>
+<div id="vows"></div>
+<div class="row"><input type="text" id="nv" placeholder="Add your own niyamam" maxlength="60"><button class="b" id="av">Add</button></div>
+<textarea id="note" placeholder="Write anything: feelings, dreams, things to remember…"></textarea>
+</section>
+
+<section>
+<h2>Calendar</h2>
+<div class="wk"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+<div class="cal" id="cal"></div>
+</section>
+
+<section>
+<h2>Your notes</h2>
+<div id="jn"></div>
+</section>
+
+<details><summary>Change start date</summary><div class="row"><input type="date" id="sd"></div></details>
+<p class="foot">Swamiye Saranam Ayyappa</p>
+</main>
+<script>
+const DEF=[["am","Morning bath & pooja"],["pm","Evening bath & pooja"],["ch","Sharanam chanting (108×)"],["fd","Sattvic food only"],["bk","Black / blue dress, no footwear"],["tr","Truthful words, no anger"],["fl","Sleep on the floor"]];
+const MS=864e5,$=s=>document.querySelector(s);
+let S={start:"2026-11-11",vows:DEF.map(([id,t])=>({id,t})),days:{}};
+try{const r=localStorage.getItem("mala41");if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+const save=()=>{try{localStorage.setItem("mala41",JSON.stringify(S))}catch(e){}};
+const pu=s=>{const[a,b,c]=s.split("-").map(Number);return Date.UTC(a,b-1,c)};
+const nowU=()=>{const n=new Date();return Date.UTC(n.getFullYear(),n.getMonth(),n.getDate())};
+const dateOf=d=>new Date(pu(S.start)+(d-1)*MS);
+const fmt=(d,o)=>d.toLocaleDateString("en-GB",Object.assign({timeZone:"UTC"},o));
+const today=()=>Math.floor((nowU()-pu(S.start))/MS)+1;
+const dd=d=>S.days[d]||(S.days[d]={c:[],n:""});
+const cnt=d=>{const x=S.days[d];return x?x.c.filter(i=>S.vows.some(v=>v.id===i)).length:0};
+const st=d=>{const t=today(),c=cnt(d);if(c&&c>=S.vows.length)return"done";if(c)return"part";if(d>t)return"fut";if(d===t)return"now";return"miss"};
+let sel=Math.min(Math.max(today(),1),41);
+
+function mala(){
+  const t=today();let b="";
+  for(let i=0;i<41;i++){const d=i+1,a=i/41*2*Math.PI-Math.PI/2;
+    b+=`<circle class="bead ${st(d)}${d===sel?" sel":""}" data-d="${d}" cx="${(150+118*Math.cos(a)).toFixed(1)}" cy="${(150+118*Math.sin(a)).toFixed(1)}" r="7.4"/>`}
+  let big,sub;
+  if(t<1){big="Soon";sub=`starts in ${1-t} day${1-t>1?"s":""}`}
+  else if(t>41){big="Done";sub="Swamiye Saranam"}
+  else{big="Day "+t;sub=`of 41 · ${41-t} to go`}
+  $("#mala").innerHTML=b+`<text class="big" x="150" y="152">${big}</text><text class="small" x="150" y="178">${sub}</text>`;
+  let done=0,s=0;for(let d=1;d<=41;d++)if(st(d)==="done")done++;
+  for(let d=Math.min(t,41);d>=1;d--){if(st(d)==="done")s++;else if(d===t)continue;else break}
+  $("#s1").textContent=done;$("#s2").textContent=s;$("#s3").textContent=Math.max(0,Math.min(41,41-Math.max(t,0)));
+  $("#range").textContent=fmt(dateOf(1),{day:"numeric",month:"short"})+" to "+fmt(dateOf(41),{weekday:"short",day:"numeric",month:"short",year:"numeric"});
+}
+function cal(){
+  const off=(new Date(pu(S.start)).getUTCDay()+6)%7;let h="<span></span>".repeat(off);
+  for(let d=1;d<=41;d++){const dt=dateOf(d),n=dt.getUTCDate();
+    h+=`<button class="c ${st(d)}${d===sel?" sel":""}" data-d="${d}" aria-label="Day ${d}">${n===1||d===1?`<i>${fmt(dt,{month:"short"})}</i>`:""}${n}</button>`}
+  $("#cal").innerHTML=h;
+}
+function day(){
+  $("#dt").textContent=`Day ${sel} · ${fmt(dateOf(sel),{weekday:"long",day:"numeric",month:"long"})}`;
+  const x=dd(sel),box=$("#vows");box.innerHTML="";
+  S.vows.forEach(v=>{
+    const on=x.c.includes(v.id),r=document.createElement("div");r.className="v"+(on?" on":"");
+    const cb=document.createElement("input");cb.type="checkbox";cb.id="v_"+v.id;cb.checked=on;
+    cb.onchange=()=>{const y=dd(sel);y.c=cb.checked?[...y.c,v.id]:y.c.filter(i=>i!==v.id);save();day();mala();cal()};
+    const lb=document.createElement("label");lb.htmlFor=cb.id;lb.textContent=v.t;
+    const xb=document.createElement("button");xb.className="x";xb.textContent="×";xb.setAttribute("aria-label","Remove "+v.t);
+    xb.onclick=()=>{S.vows=S.vows.filter(q=>q.id!==v.id);save();all()};
+    r.append(cb,lb,xb);box.append(r)});
+  $("#note").value=x.n||"";
+}
+function jn(){
+  const box=$("#jn");box.innerHTML="";let any=false;
+  for(let d=41;d>=1;d--){const n=S.days[d]&&S.days[d].n;if(!n||!n.trim())continue;any=true;
+    const b=document.createElement("button");b.className="j";
+    const s=document.createElement("small");s.textContent=`Day ${d} · ${fmt(dateOf(d),{day:"numeric",month:"short"})}`;
+    b.append(s,n.length>90?n.slice(0,90)+"…":n);
+    b.onclick=()=>{sel=d;all();scrollTo({top:0,behavior:"smooth"})};box.append(b)}
+  if(!any)box.textContent="Notes you write each day will collect here.";
+}
+function all(){mala();cal();day();jn()}
+const pick=e=>{const d=e.target.dataset&&e.target.dataset.d;if(d){sel=+d;all()}};
+$("#mala").onclick=pick;$("#cal").onclick=pick;
+$("#note").oninput=e=>{dd(sel).n=e.target.value;save()};
+$("#note").onchange=jn;
+$("#av").onclick=()=>{const i=$("#nv"),t=i.value.trim();if(!t)return;S.vows.push({id:"u"+Date.now(),t});i.value="";save();all()};
+$("#nv").onkeydown=e=>{if(e.key==="Enter")$("#av").click()};
+$("#sd").value=S.start;
+$("#sd").onchange=e=>{if(e.target.value){S.start=e.target.value;sel=Math.min(Math.max(today(),1),41);save();all()}};
+all();
+</script>
+</body>
+</html>
